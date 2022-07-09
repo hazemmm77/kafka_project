@@ -38,7 +38,11 @@ def configure_connector():
         )
     )
     # Ensure a healthy response was given
-    resp.raise_for_status()
-    logging.debug("connector created successfully")
+    try:
+        resp.raise_for_status()
+        logging.debug("connector created successfully")
+    except Exception as error:
+        print(error)
+
 if __name__ == "__main__":
     configure_connector()
