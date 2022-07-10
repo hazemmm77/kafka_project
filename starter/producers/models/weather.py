@@ -40,8 +40,8 @@ class Weather(Producer):
             topic_name="org.chicago.cta.weather.v1",
             key_schema=Weather.key_schema,
             value_schema=Weather.value_schema,
-            num_partitions=3,
-            num_replicas=3
+            num_partitions=1,
+            num_replicas=1
         )
 
         self.status = Weather.status.sunny
@@ -101,11 +101,15 @@ class Weather(Producer):
 
         )
         try:
-            resp.raise_for_status()
-        except requests.exceptions.HTTPError as e:
-            print(f" error message {e}")
+            logger.info(json.dumps(resp.json()))
 
-        logger.info(json.dumps(resp.json()))
+            print("respone is"+str(resp))
+            print(resp.raise_for_status())
+        except Exception as e:
+            logging.error(traceback.format_exc())
+
+
+            logger.info(json.dumps(resp.json()))
         logger.debug(
             "sent weather data to kafka, temp: %s, status: %s",
             self.temp,
