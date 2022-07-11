@@ -39,8 +39,8 @@ class Station(Producer):
             topic_name,
             key_schema=Station.key_schema,
             value_schema=Station.value_schema,
-            num_partitions=3,
-            num_replicas=3,
+            num_partitions=1,
+            num_replicas=1,
         )
 
         self.station_id = int(station_id)
@@ -65,8 +65,11 @@ class Station(Producer):
 
         self.producer.produce(
             topic=self.topic_name,
+            key_schema=self.key_schema,
+            value_schema=self.value_schema,
             key={"timestamp": self.time_millis()},
-            value={"train_id":train.train_id,
+            value={"station_id":self.station_id,
+                   "train_id":train.train_id,
                    "direction":direction,
                    "prev_station_id":prev_station_id,
                    "prev_direction":prev_direction,

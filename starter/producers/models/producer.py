@@ -51,7 +51,7 @@ class Producer:
             Producer.existing_topics.add(self.topic_name)
 
         # TODO: Configure the AvroProducer
-        self.producer= AvroProducer(self.broker_properties,self.key_schema,                self.value_schema)
+        self.producer= AvroProducer(self.broker_properties,self.key_schema,self.value_schema)
 
 
 
