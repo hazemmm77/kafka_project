@@ -73,8 +73,7 @@ class Station(Producer):
                    "direction":direction,
                    "prev_station_id":prev_station_id,
                    "prev_direction":prev_direction,
-                   "station_id":self.station_id,
-                   "line" : self.color.name,
+                    "line" : self.color.name,
                    "train_status" : train.status.name
 
 

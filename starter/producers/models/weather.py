@@ -82,6 +82,9 @@ class Weather(Producer):
         #
         #
        # logger.info("weather kafka proxy integration incomplete - skipping")
+        print(f"{Weather.rest_proxy_url}/topics/{self.topic_name}")
+        print(json.dumps(Weather.value_schema))
+        print(str(self.time_millis())+" "+str(self.temp)+" "+str(self.status.name))
         resp = requests.post(
                              f"{Weather.rest_proxy_url}/topics/{self.topic_name}",
            headers={"Content-Type":
@@ -90,9 +93,9 @@ class Weather(Producer):
                 {"key_schema":json.dumps( Weather.key_schema),"value_schema":json.dumps(Weather.value_schema), "records":
            [
               {
-                         "key":{"timestamp": self.time_millis()},
-                         "value":{ "temperature": self.temp,
-                                  "status": self.status.name
+                         "key":{"timestamp":(self.time_millis())},
+                         "value":{"temperature":float(self.temp),
+                                  "status": str(self.status.name)
                                  }
               }
 
@@ -106,8 +109,8 @@ class Weather(Producer):
 
             print("respone is"+str(resp))
             print(resp.raise_for_status())
-        except Exception as e:
-            logging.error(traceback.format_exc())
+        except :
+            logging.critical(f"Failed to send data to REST Proxy: {json.dumps(resp.json(), indent=2)}")
 
 
             logger.info(json.dumps(resp.json()))
