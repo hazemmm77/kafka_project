@@ -20,18 +20,19 @@ def configure_connector():
             {
                 "name" : CONNECTOR_NAME,
                 "config" : {
-                    "connector.class" : "io.confluent.connect.jdbc.Jdbc.SourceConnector",
+                    "connector.class" : "io.confluent.connect.jdbc.JdbcSourceConnector",
                     "key.converter": "org.apache.kafka.connect.json.JsonConverter",
                     "key.converter.schemas.enable": "false",
                     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
                     "value.converter.schemas.enable": "false",
-                    "connection.url": "jdbc:postgresql://localhost:5432/cta",
+                    "connection.url": "jdbc:postgresql://postgres:5432/cta",
                     "connection.user": "cta_admin",
                     "connection.password": "chicago",
                     "table.whitelist": "stations",
                     "mode": "incrementing",
                     "incrementing.column.name": "stop_id",
-                    "poll.interval.ms": "1000000",
+                    "poll.interval.ms": "300000",
+                    "topic.prefix": "CTAConnectorStations",
                     "batch.max.rows": "100"
                 }
             }
