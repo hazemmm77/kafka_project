@@ -19,5 +19,7 @@ class Weather:
         #
         #
         # TODO: Process incoming weather messages. Set the temperature and status.
+        return Weather(message.value["temperature "], value["status"])
+
         #
         #
