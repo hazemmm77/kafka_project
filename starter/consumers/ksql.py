@@ -32,7 +32,7 @@ CREATE TABLE turnstile (
     key='station_id'
 );
 
-CREATE TABLE turnstile_summary
+CREATE TABLE TURNSTILE_SUMMARY
 WITH (VALUE_FORMAT='JSON') AS
     select station_id, count(station_id) as count
     from turnstile

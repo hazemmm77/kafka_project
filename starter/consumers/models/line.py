@@ -56,7 +56,7 @@ class Line:
     def process_message(self, message):
         """Given a kafka message, extract data"""
         # TODO: Based on the message topic, call the appropriate handler.
-        if message.topic == "TransformedStation":
+        if message.topic == "org.chicago.cta.stations.table.v1":
             try:
                 value = json.loads(message.value())
                 self._handle_station(value)
