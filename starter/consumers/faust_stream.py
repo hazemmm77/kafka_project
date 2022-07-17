@@ -70,7 +70,8 @@ async def station(stations):
             line=temp
 
         )
-        await out_topic.send(trans)
+        table[station.station_id] = trans
+        await out_topic.send(table)
 
 
 

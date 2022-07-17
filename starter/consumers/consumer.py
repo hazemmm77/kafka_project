@@ -65,7 +65,11 @@ class KafkaConsumer:
         logger.info("on_assign is incomplete - skipping")
         for partition in partitions:
             if partition.offset == self.offset_earliest:
-                partition.offset = OFFSET_BEGINNING
+                partition.offset = "auto.offset.reset"
+            else:
+                partition.offset="auto.offset"
+
+
 
         logger.info("partitions assigned for %s", self.topic_name_pattern)
         consumer.assign(partitions)
@@ -93,7 +97,8 @@ class KafkaConsumer:
             elif message.error() is not None:
                 print(f"error from consumer {message.error()}")
             else:
-                print(f"consumed message {message.key()}: {message.value()}")
+                self.message_handler(message)
+                logger.info(f"Consumer Message key :{message}")
                 return 1
 
         logger.info("_consume is incomplete - skipping")
@@ -104,4 +109,4 @@ class KafkaConsumer:
         #
         # TODO: Cleanup the kafka consumer
         #
-        #
+        self.consumer.close()

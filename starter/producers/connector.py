@@ -31,7 +31,7 @@ def configure_connector():
                     "table.whitelist": "stations",
                     "mode": "incrementing",
                     "incrementing.column.name": "stop_id",
-                    "poll.interval.ms": "300000",
+                    "poll.interval.ms": "10000000",
                     "topic.prefix": "CTAConnectorStations",
                     "batch.max.rows": "100"
                 }
