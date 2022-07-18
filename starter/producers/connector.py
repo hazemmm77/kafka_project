@@ -32,7 +32,7 @@ def configure_connector():
                     "mode": "incrementing",
                     "incrementing.column.name": "stop_id",
                     "poll.interval.ms": "10000000",
-                    "topic.prefix": "CTAConnectorStations",
+                    "topic.prefix": "CTAConnectorStationsstations",
                     "batch.max.rows": "100"
                 }
             }

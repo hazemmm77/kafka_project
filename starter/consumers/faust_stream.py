@@ -34,7 +34,7 @@ class TransformedStation(faust.Record):
 #   places it into a new topic with only the necessary information.
 app = faust.App("stations-stream", broker="kafka://localhost:9092", store="memory://")
 # TODO: Define the input Kafka Topic. Hint: What topic did Kafka Connect output to?
-topic = app.topic("CTAConnectorStations", value_type=Station)
+topic = app.topic("CTAConnectorStationsstations", value_type=Station)
 # TODO: Define the output Kafka Topic
 out_topic = app.topic("org.chicago.cta.stations.table.v1", partitions=1, value_type=TransformedStation)
 # TODO: Define a Faust Table
@@ -53,17 +53,19 @@ table = app.Table(
 # then you would set the `line` of the `TransformedStation` record to the string `"red"`
 @app.agent(topic)
 async def station(stations):
-    async for station in stations:
-        temp
+    temp = ""
+
+    async for station in stations.group_by(Station.station_id):
+
         if station.red == 'true':
             temp = 'red'
         elif station.blue == 'true':
             temp = 'blue'
         elif station.green == 'true':
-            temp='green'
+            temp = 'green'
         else:
             temp = "unkowon"
-        trans=TransformedStation(
+        trans = TransformedStation(
             station_id=station.station_id,
             station_name=station.station_name,
             order=station.order,
@@ -71,8 +73,6 @@ async def station(stations):
 
         )
         table[station.station_id] = trans
-        await out_topic.send(table)
-
 
 
 

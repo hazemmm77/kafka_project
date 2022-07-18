@@ -37,8 +37,8 @@ class KafkaConsumer:
         #
         self.broker_properties = {
             'bootstrap.servers': 'PLAINTEXT://127.0.0.1:9092',
-
-            "group.id": f"{self.topic_name_pattern}",
+            'group.id': f"self.topic_name_pattern",
+            "auto.offset.reset": "earliest" if offset_earliest else "latest"
         }
 
         # TODO: Create the Consumer, using the appropriate type.
@@ -64,10 +64,7 @@ class KafkaConsumer:
         # the beginning or earliest
         logger.info("on_assign is incomplete - skipping")
         for partition in partitions:
-            if partition.offset == self.offset_earliest:
-                partition.offset = "auto.offset.reset"
-            else:
-                partition.offset="auto.offset"
+            partition.offset = OFFSET_BEGINNING
 
 
 
@@ -98,7 +95,8 @@ class KafkaConsumer:
                 print(f"error from consumer {message.error()}")
             else:
                 self.message_handler(message)
-                logger.info(f"Consumer Message key :{message}")
+                logger.info(f"Consumer Message key :{message.key()}")
+
                 return 1
 
         logger.info("_consume is incomplete - skipping")
